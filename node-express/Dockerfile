@@ -17,8 +17,8 @@ COPY . .
 EXPOSE 6582
 
 # Set environment variables (can be overridden by docker-compose.yml)
-ENV APP_PORT=6582
-ENV PSQL_HOST=psql-db
+ENV PORT=6582
+ENV PSQL_HOST=psql-database
 ENV PSQL_DB=dailytasks
 ENV PSQL_USER=postgres
 ENV PSQL_PASSWORD=root

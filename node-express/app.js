@@ -14,4 +14,4 @@ app.get('/test', (req, res) => res.status(200).json({success: true, message:"Hol
 app.use('/api/v1', taskRoutes);
 
 //Launching application
-app.listen(process.env.APP_PORT, () => console.log(`Listening on port ${process.env.APP_PORT}`) );
+app.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}`) );

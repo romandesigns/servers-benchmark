@@ -79,6 +79,6 @@ app.delete(`${base}/:id/delete-task`, async (c) => {
 });
 
 export default {
-  port: Bun.env.APP_PORT,
+  port: Bun.env.PORT,
   fetch: app.fetch,
 }

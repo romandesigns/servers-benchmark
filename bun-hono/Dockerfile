@@ -16,9 +16,9 @@ COPY . .
 # Expose the Bun server port
 EXPOSE 1103
 
-# Set environment variables (correct DB host: psql-db)
-ENV APP_PORT=1103
-ENV PSQL_HOST=psql-db
+# Set environment variables (correct DB host: psql-database)
+ENV PORT=1103
+ENV PSQL_HOST=psql-database
 ENV PSQL_DB=dailytasks
 ENV PSQL_USER=postgres
 ENV PSQL_PASSWORD=root
