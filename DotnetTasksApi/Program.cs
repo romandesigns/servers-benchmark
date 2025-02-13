@@ -38,6 +38,19 @@ if (!isRunningInContainer)
     app.UseHttpsRedirection();
 }
 
+// CONTROLLER: Simple test route
+app.MapGet("/test", () =>
+{
+    try
+    {
+        return Results.Ok(new { success = true, message = "Hologic" });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Server error: {ex.Message}");
+    }
+});
+
 // CONTROLLER: retrieving all tasks
 app.MapGet("/api/v1/get-tasks", async (AppDbContext db) =>
 {
