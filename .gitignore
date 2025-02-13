@@ -2,3 +2,7 @@
 /.idea/
 /node-express/.env
 /bun-hono/node_modules/
+/node-fastify/node_modules/
+
+/bun-elysia/.env
+/bun-hono/.env
