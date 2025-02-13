@@ -5,8 +5,8 @@
   "description": "A node express server used to compare stress output results with other backend technologies",
   "main": "app.js",
   "scripts": {
-    "run": "npm run app.js",
-    "dev": "nodemon run app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Roman F.",
   "license": "ISC",
