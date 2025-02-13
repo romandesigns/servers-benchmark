@@ -5,6 +5,16 @@ import {pool} from './config/database-connection';
 const app = new Hono()
 const base = '/api/v1'
 
+// CONTROLLER: test route
+app.get(`/test`, async (c) => {
+  try {
+    return c.json({success: true, message:"Hologic"});
+  } catch (e) {
+    console.error(e);
+    c.json({ message: "Server error occurred", error: e });
+  }
+});
+
 // CONTROLLER: retrieving all tasks
 app.get(`${base}/get-tasks`, async (c) => {
   try {
