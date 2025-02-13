@@ -7,7 +7,14 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseUrls("http://0.0.0.0:5000", "https://0.0.0.0:5001");
+bool isRunningInContainer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
+// Determine which URLs to use (HTTPS if possible, otherwise HTTP)
+var urls = isRunningInContainer
+    ? "http://0.0.0.0:5000"
+    : "http://0.0.0.0:5000;https://0.0.0.0:5001";
+
+builder.WebHost.UseUrls(urls);
 
 // Configure PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -25,9 +32,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-
+// Apply HTTPS redirection only if not in Docker
+if (!isRunningInContainer)
+{
+    app.UseHttpsRedirection();
+}
 
 // CONTROLLER: retrieving all tasks
 app.MapGet("/api/v1/get-tasks", async (AppDbContext db) =>
@@ -49,7 +58,9 @@ app.MapGet("/api/v1/{id:guid}/get-task", async (Guid id, AppDbContext db) =>
     try
     {
         var task = await db.Tasks.FindAsync(id);
-        return task is not null ? Results.Ok(new { success = true, message = "Task retrieved", data = task }) : Results.NotFound("Task not found");
+        return task is not null
+            ? Results.Ok(new { success = true, message = "Task retrieved", data = task })
+            : Results.NotFound(new { success = false, message = "Task not found" });
     }
     catch (Exception ex)
     {
@@ -63,11 +74,11 @@ app.MapPost("/api/v1/create-task", async (TaskItem task, AppDbContext db) =>
     try
     {
         if (task == null)
-        {
             return Results.BadRequest(new { success = false, message = "Invalid task data" });
-        }
+
         db.Tasks.Add(task);
         await db.SaveChangesAsync();
+
         return Results.Created($"/api/v1/get-task/{task.Id}", new
         {
             success = true,
@@ -81,14 +92,14 @@ app.MapPost("/api/v1/create-task", async (TaskItem task, AppDbContext db) =>
     }
 });
 
-
 // CONTROLLER: update task
 app.MapPut("/api/v1/{id:guid}/update-task", async (Guid id, TaskItem updatedTask, AppDbContext db) =>
 {
     try
     {
         var task = await db.Tasks.FindAsync(id);
-        if (task is null) return Results.NotFound("Task not found");
+        if (task is null)
+            return Results.NotFound(new { success = false, message = "Task not found" });
 
         task.Title = updatedTask.Title;
         task.Description = updatedTask.Description;
@@ -112,15 +123,16 @@ app.MapDelete("/api/v1/{id:guid}/delete-task", async (Guid id, AppDbContext db) 
         var task = await db.Tasks.FindAsync(id);
         if (task is null)
             return Results.NotFound(new { success = false, message = "Task not found" });
-            db.Tasks.Remove(task);
-            await db.SaveChangesAsync();
-            return Results.Ok(new { success = true, message = "Task deleted" });
-        }
+
+        db.Tasks.Remove(task);
+        await db.SaveChangesAsync();
+
+        return Results.Ok(new { success = true, message = "Task deleted" });
+    }
     catch (Exception ex)
     {
         return Results.Problem($"Error deleting task: {ex.Message}");
     }
 });
-
 
 app.Run();
