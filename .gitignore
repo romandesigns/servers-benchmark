@@ -3,6 +3,7 @@
 /node-express/.env
 /bun-hono/node_modules/
 /node-fastify/node_modules/
+/node-fastify/.env
 
 /bun-elysia/.env
 /bun-hono/.env

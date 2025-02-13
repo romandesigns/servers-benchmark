@@ -4,6 +4,16 @@ const base = "/api/v1";
 
 module.exports = async function (fastify, opts) {
 
+  // CONTROLLER: test route
+  fastify.get(`/test`, async function (request, reply) {
+    try {
+      reply.status(200).send({success: true, message:"Hologic"});
+    } catch (err) {
+      console.error(err);
+      reply.status(500).send({ message: "Server error occurred", error: err });
+    }
+  });
+
   // CONTROLLER: retrieving all tasks
   fastify.get(`${base}/get-tasks`, async function (request, reply) {
     try {
