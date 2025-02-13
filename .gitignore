@@ -8,3 +8,47 @@
 /bun-hono/.env
 /bun-elysia/node_modules/
 /bun-elysia/.env
+
+
+# 🔹 Ignore build & publish outputs
+/DotnetTasksApi/bin/
+/DotnetTasksApi/obj/
+/DotnetTasksApi/*.exe
+/DotnetTasksApi/*.dll
+/DotnetTasksApi/*.pdb
+/DotnetTasksApi/*.log
+
+# 🔹 Ignore user-specific settings
+/DotnetTasksApi/.vscode/
+/DotnetTasksApi/*.user
+/DotnetTasksApi/*.suo
+/DotnetTasksApi/*.ntvs*
+/DotnetTasksApi/*.njsproj
+/DotnetTasksApi/*.sln.docstates
+/DotnetTasksApi/.DS_Store
+
+# 🔹 Ignore secrets & environment files
+/DotnetTasksApi/.env
+/DotnetTasksApi/appsettings.Development.json
+/DotnetTasksApi/secrets.json
+
+# 🔹 Ignore migration-generated files
+/DotnetTasksApi/Migrations/
+
+# 🔹 Ignore dependencies & lock files
+/DotnetTasksApi/node_modules/
+/DotnetTasksApi/package-lock.json
+
+# 🔹 Ignore IDE settings (Visual Studio & JetBrains)
+/DotnetTasksApi/.vscode/
+/DotnetTasksApi/.idea/
+/DotnetTasksApi/*.vs/
+
+# 🔹 Ignore Docker artifacts (if using Docker)
+/DotnetTasksApi/docker-compose.override.yml
+/DotnetTasksApi/**/Dockerfile
+/DotnetTasksApi/**/docker-compose*
+
+# 🔹 Ignore PostgreSQL data (if using local DB)
+/DotnetTasksApi/pgdata/
+/DotnetTasksApi/*.sql
