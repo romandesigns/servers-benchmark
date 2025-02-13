@@ -6,3 +6,5 @@
 
 /bun-elysia/.env
 /bun-hono/.env
+/bun-elysia/node_modules/
+/bun-elysia/.env
