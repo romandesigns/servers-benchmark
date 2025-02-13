@@ -7,14 +7,12 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Determine if running inside a container (Docker)
 bool isRunningInContainer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
-// Determine which URLs to use (HTTPS if possible, otherwise HTTP)
-var urls = isRunningInContainer
-    ? "http://0.0.0.0:5000"
-    : "http://0.0.0.0:5000;https://0.0.0.0:5001";
-
-builder.WebHost.UseUrls(urls);
+// Use Cloud Run's assigned PORT or fallback to 5000 for local development
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Configure PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -25,33 +23,23 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Enable Swagger
+// Enable Swagger in development mode
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Apply HTTPS redirection only if not in Docker
+// Apply HTTPS redirection only if not in a container
 if (!isRunningInContainer)
 {
     app.UseHttpsRedirection();
 }
 
-// CONTROLLER: Simple test route
-app.MapGet("/test", () =>
-{
-    try
-    {
-        return Results.Ok(new { success = true, message = "Hologic" });
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem($"Server error: {ex.Message}");
-    }
-});
+// Health check route
+app.MapGet("/test", () => Results.Ok(new { success = true, message = "Hologic" }));
 
-// CONTROLLER: retrieving all tasks
+// CONTROLLER: Retrieve all tasks
 app.MapGet("/api/v1/get-tasks", async (AppDbContext db) =>
 {
     try
@@ -65,7 +53,7 @@ app.MapGet("/api/v1/get-tasks", async (AppDbContext db) =>
     }
 });
 
-// CONTROLLER: retrieving task
+// CONTROLLER: Retrieve a single task
 app.MapGet("/api/v1/{id:guid}/get-task", async (Guid id, AppDbContext db) =>
 {
     try
@@ -81,7 +69,7 @@ app.MapGet("/api/v1/{id:guid}/get-task", async (Guid id, AppDbContext db) =>
     }
 });
 
-// CONTROLLER: create task
+// CONTROLLER: Create a new task
 app.MapPost("/api/v1/create-task", async (TaskItem task, AppDbContext db) =>
 {
     try
@@ -105,7 +93,7 @@ app.MapPost("/api/v1/create-task", async (TaskItem task, AppDbContext db) =>
     }
 });
 
-// CONTROLLER: update task
+// CONTROLLER: Update a task
 app.MapPut("/api/v1/{id:guid}/update-task", async (Guid id, TaskItem updatedTask, AppDbContext db) =>
 {
     try
@@ -128,7 +116,7 @@ app.MapPut("/api/v1/{id:guid}/update-task", async (Guid id, TaskItem updatedTask
     }
 });
 
-// CONTROLLER: delete task
+// CONTROLLER: Delete a task
 app.MapDelete("/api/v1/{id:guid}/delete-task", async (Guid id, AppDbContext db) =>
 {
     try
@@ -148,4 +136,5 @@ app.MapDelete("/api/v1/{id:guid}/delete-task", async (Guid id, AppDbContext db) 
     }
 });
 
+// Run the app
 app.Run();
