@@ -1,3 +1,4 @@
 /node-express/node_modules/
 /.idea/
 /node-express/.env
+/bun-hono/node_modules/

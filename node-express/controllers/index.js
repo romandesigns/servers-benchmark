@@ -24,7 +24,7 @@ const getTask = async function (req, res) {
   }
 };
 
-// // CONTROLLER: retrieving all tasks
+// CONTROLLER: create task
 const createTask = async function (req, res) {
   try {
     const values = [req.body.title, req.body.description]
@@ -36,7 +36,7 @@ const createTask = async function (req, res) {
   }
 };
 
-// // CONTROLLER: retrieving all tasks
+// CONTROLLER: update task
 const updateTask = async function (req, res) {
   try {
     const values = [req.body.title, req.body.description,req.params.id];
@@ -48,7 +48,7 @@ const updateTask = async function (req, res) {
   }
 };
 
-// // CONTROLLER: retrieving all tasks
+// CONTROLLER: delete task
 const deleteTask = async function (req, res) {
   try {
     const values = [req.params.id];
