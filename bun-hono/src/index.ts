@@ -5,7 +5,17 @@ import {pool} from './config/database-connection';
 const app = new Hono()
 const base = '/api/v1'
 
-// CONTROLLER: test route
+// CONTROLLER: health route
+app.get(`/health`, async (c) => {
+  try {
+    return c.text('Ok');
+  } catch (e) {
+    console.error(e);
+    c.json({ message: "Server error occurred", error: e });
+  }
+})
+
+;// CONTROLLER: test route
 app.get(`/test`, async (c) => {
   try {
     return c.json({success: true, message:"Hologic"});
@@ -78,7 +88,10 @@ app.delete(`${base}/:id/delete-task`, async (c) => {
   }
 });
 
+const port = Bun.env.PORT || 1103;
+console.log(`🚀 Server running on port ${port}`);
+
 export default {
-  port: Bun.env.PORT,
+  port,
   fetch: app.fetch,
 }

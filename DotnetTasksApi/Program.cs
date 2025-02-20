@@ -37,6 +37,8 @@ if (!isRunningInContainer)
 }
 
 // Health check route
+app.MapGet("/health", () => Results.Ok("ok"));
+
 app.MapGet("/test", () => Results.Ok(new { success = true, message = "Hologic" }));
 
 // CONTROLLER: Retrieve all tasks

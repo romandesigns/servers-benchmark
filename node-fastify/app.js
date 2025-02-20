@@ -1,34 +1,41 @@
-'use strict'
+'use strict';
 
-const path = require('node:path')
-const AutoLoad = require('@fastify/autoload')
+const path = require('node:path');
+const AutoLoad = require('@fastify/autoload');
+const Fastify = require('fastify');
+require('dotenv').config();
 
-// Pass --options via CLI arguments in command to enable these options.
-const options = {}
+const fastify = Fastify({
+  logger: true, // Enable logging for debugging
+});
 
-module.exports = async function (fastify, opts) {
-  // Place here your custom code!
+// Cloud Run requires PORT=8080, use default locally
+const PORT = process.env.PORT || 5678;
 
-  // Do not touch the following lines
+// Register database connection
+fastify.register(require('@fastify/postgres'), {
+  connectionString: `postgres://${process.env.PSQL_USER}:${process.env.PSQL_PASSWORD}@${process.env.PSQL_HOST}:${process.env.PSQL_PORT}/${process.env.PSQL_DB}`,
+});
 
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'plugins'),
-    options: Object.assign({}, opts)
-  })
+// Load plugins
+fastify.register(AutoLoad, {
+  dir: path.join(__dirname, 'plugins'),
+});
 
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes'),
-    options: Object.assign({}, opts)
-  })
+// Load routes
+fastify.register(AutoLoad, {
+  dir: path.join(__dirname, 'routes'),
+});
 
-  fastify.register(require('@fastify/postgres'), {
-    connectionString: `postgres://${process.env.PSQL_USER}:${process.env.PSQL_PASSWORD}@${process.env.PSQL_HOST}:${process.env.PSQL_PORT}/${process.env.PSQL_DB}`,
-  })
-}
+// Start the server
+const start = async () => {
+  try {
+    await fastify.listen({ port: PORT, host: '0.0.0.0' });
+    console.log(`🚀 Fastify server running on port ${PORT}`);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
 
-module.exports.options = options
+start();

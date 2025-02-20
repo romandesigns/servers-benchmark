@@ -4,6 +4,16 @@ const base = "/api/v1";
 
 module.exports = async function (fastify, opts) {
 
+  // CONTROLLER: health route
+  fastify.get(`/health`, async function (request, reply) {
+    try {
+      reply.status(200).send("ok");
+    } catch (err) {
+      console.error(err);
+      reply.status(500).send({ message: "Server error occurred", error: err });
+    }
+  });
+
   // CONTROLLER: test route
   fastify.get(`/test`, async function (request, reply) {
     try {
