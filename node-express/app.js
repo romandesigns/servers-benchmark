@@ -1,3 +1,4 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
 import taskRoutes from './routes/index.js';
@@ -11,6 +12,7 @@ app.use(express.static('public'));
 
 // App routes
 app.get('/health', (req, res) => res.status(200).send('ok'));
+
 app.get('/test', (req, res) => res.status(200).json({success: true, message:"Hologic"}));
 app.use('/api/v1', taskRoutes);
 
