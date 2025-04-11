@@ -6,11 +6,11 @@ namespace DotnetTasksApi.Models;
 public class TaskItem
 {
     [Key]
-    [Column("id")] // 👈 Explicitly map to PostgreSQL column name
+    [Column("id")]
     public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
-    [Column("title")] // 👈 Ensure PostgreSQL compatibility
+    [Column("title")]
     public string Title { get; set; } = string.Empty;
 
     [Column("description")]
@@ -20,10 +20,10 @@ public class TaskItem
     public bool Complete { get; set; } = false;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("created_at")]
+    [Column("createdAt")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    [Column("updated_at")]
+    [Column("updatedAt")]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }

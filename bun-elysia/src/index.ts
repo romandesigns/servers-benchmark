@@ -27,7 +27,7 @@ const app = new Elysia()
             },
         })
     )
-    .get(`/test`, async () => {
+    .get(`/health`, async () => 'ok')    .get(`/test`, async () => {
         return {
             success: true,
             message: "Hologic",
@@ -87,7 +87,7 @@ const app = new Elysia()
             message: "Task deleted",
             data: task.rows,
         };
-    }).listen(Bun.env.PORT!!);
+    }).listen(Bun.env.PORT || 6485);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`

@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetTasksApi", "DotnetTasksApi\DotnetTasksApi.csproj", "{4C6E89A7-2416-5950-CF75-36F21FBEB11F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetTasksApi", "DotnetTasksApi.csproj", "{FF1A485E-03AA-E618-54E2-EF1D5E7BE29D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,15 +10,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4C6E89A7-2416-5950-CF75-36F21FBEB11F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C6E89A7-2416-5950-CF75-36F21FBEB11F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C6E89A7-2416-5950-CF75-36F21FBEB11F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C6E89A7-2416-5950-CF75-36F21FBEB11F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF1A485E-03AA-E618-54E2-EF1D5E7BE29D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF1A485E-03AA-E618-54E2-EF1D5E7BE29D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF1A485E-03AA-E618-54E2-EF1D5E7BE29D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF1A485E-03AA-E618-54E2-EF1D5E7BE29D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {242EE53A-23C2-4D1E-85FB-68BF6B79809A}
+		SolutionGuid = {D3A91A10-7DBA-40DF-A44E-B4986F73993B}
 	EndGlobalSection
 EndGlobal
