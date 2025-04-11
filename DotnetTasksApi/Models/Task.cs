@@ -20,10 +20,10 @@ public class TaskItem
     public bool Complete { get; set; } = false;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("createdAt")]
+    [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    [Column("updatedAt")]
+    [Column("updated_at")]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }

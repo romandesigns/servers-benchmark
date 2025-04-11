@@ -1,0 +1,113 @@
+version: "3.9"
+
+services:
+  # PostgreSQL Database
+  psql-database:
+    container_name: psql-database
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: dailytasks
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - db-network
+
+  # pgAdmin (Web UI for PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@benchmark.local
+      PGADMIN_DEFAULT_PASSWORD: rsteam
+    ports:
+      - "5050:80"
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
+  # Bun Elysia App
+  bun-elysia:
+    build:
+      context: ./bun-elysia
+    environment:
+      PORT: 6485
+      PSQL_HOST: psql-database
+      PSQL_DB: dailytasks
+      PSQL_USER: postgres
+      PSQL_PASSWORD: root
+      PSQL_PORT: 5432
+    ports:
+      - "6485:6485"
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
+  # Bun Hono App
+  bun-hono:
+    build:
+      context: ./bun-hono
+    environment:
+      PORT: 1103
+      PSQL_HOST: psql-database
+      PSQL_DB: dailytasks
+      PSQL_USER: postgres
+      PSQL_PASSWORD: root
+      PSQL_PORT: 5432
+    ports:
+      - "1103:1103"
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
+  # Node Express App
+  node-express:
+    build:
+      context: ./node-express
+    environment:
+      PORT: 6582
+      PSQL_HOST: psql-database
+      PSQL_DB: dailytasks
+      PSQL_USER: postgres
+      PSQL_PASSWORD: root
+      PSQL_PORT: 5432
+    ports:
+      - "6582:6582"
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
+  # Node Fastify App
+  node-fastify:
+    build:
+      context: ./node-fastify
+    environment:
+      PORT: 3000
+      PSQL_HOST: psql-database
+      PSQL_DB: dailytasks
+      PSQL_USER: postgres
+      PSQL_PASSWORD: root
+      PSQL_PORT: 5432
+    ports:
+      - "3000:3000"
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
+volumes:
+  pgdata:
+
+networks:
+  db-network:
+    driver: bridge
