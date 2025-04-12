@@ -11,6 +11,20 @@ services:
     networks:
       - db-network
 
+  dotnet-api:
+    build:
+      context: ./DotnetTasksApi
+      dockerfile: Dockerfile
+    environment:
+      DOTNET_RUNNING_IN_CONTAINER: "true"
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8080:8080" # updated port
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -53,10 +67,12 @@ services:
     container_name: pgadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@benchmark.local
+      PGADMIN_DEFAULT_EMAIL: rsteam@ketchup.com
       PGADMIN_DEFAULT_PASSWORD: rsteam
     ports:
       - "5050:80"
+    volumes:
+      - pgadmin-config:/var/lib/pgadmin
     depends_on:
       - psql-database
     networks:
@@ -136,6 +152,8 @@ services:
 
 volumes:
   pgdata:
+  pgadmin-config:
+  grafana-data:
 
 networks:
   db-network:

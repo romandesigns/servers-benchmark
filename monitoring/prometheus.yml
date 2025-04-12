@@ -2,26 +2,37 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
+  # System metrics from host
   - job_name: "node-exporter"
     static_configs:
       - targets: ["node-exporter:9100"]
 
+  # .NET API — make sure it exposes /metrics on :8080
+  - job_name: "dotnet-api"
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["dotnet-api:8080"]
+
+  # Express app
   - job_name: "node-express"
+    metrics_path: /metrics
     static_configs:
       - targets: ["node-express:6582"]
 
+  # Fastify app
   - job_name: "node-fastify"
+    metrics_path: /metrics
     static_configs:
       - targets: ["node-fastify:3000"]
 
+  # Bun Elysia app
   - job_name: "bun-elysia"
+    metrics_path: /metrics
     static_configs:
       - targets: ["bun-elysia:6485"]
 
+  # Bun Hono app
   - job_name: "bun-hono"
+    metrics_path: /metrics
     static_configs:
       - targets: ["bun-hono:1103"]
-
-  - job_name: "dotnet"
-    static_configs:
-      - targets: ["dotnet:5001"]
