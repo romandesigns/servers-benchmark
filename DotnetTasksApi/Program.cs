@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// This middleware is required to enable Prometheus metrics
+app.UseHttpMetrics();
+app.MapMetrics(); 
+app.MapGet("/", () => "Hello from .NET");
+
 // Enable Swagger in development mode
 if (app.Environment.IsDevelopment())
 {
@@ -35,7 +41,6 @@ if (!isRunningInContainer)
 {
     app.UseHttpsRedirection();
 }
-
 // Health check route
 app.MapGet("/health", () => Results.Ok("ok"));
 

@@ -6,28 +6,19 @@ services:
     container_name: prometheus
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--storage.tsdb.retention.time=6h"
+      - "--config.file=/etc/prometheus/prometheus.yml"
     ports:
       - "9090:9090"
-    networks:
-      - db-network
-
-  dotnet-api:
-    build:
-      context: ./DotnetTasksApi
-      dockerfile: Dockerfile
-    environment:
-      DOTNET_RUNNING_IN_CONTAINER: "true"
-      ASPNETCORE_ENVIRONMENT: Development
-    ports:
-      - "8080:8080" # updated port
-    depends_on:
-      - psql-database
     networks:
       - db-network
 
   grafana:
     image: grafana/grafana
     container_name: grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
     ports:
       - "3001:3000"
     depends_on:
@@ -35,7 +26,6 @@ services:
     networks:
       - db-network
 
-  # PostgreSQL Database
   psql-database:
     container_name: psql-database
     image: postgres:16
@@ -61,7 +51,6 @@ services:
     networks:
       - db-network
 
-  # pgAdmin (Web UI for PostgreSQL)
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -78,7 +67,20 @@ services:
     networks:
       - db-network
 
-  # Bun Elysia App
+  dotnet-api:
+    build:
+      context: ./DotnetTasksApi
+      dockerfile: Dockerfile
+    environment:
+      DOTNET_RUNNING_IN_CONTAINER: "true"
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8080:8080"
+    depends_on:
+      - psql-database
+    networks:
+      - db-network
+
   bun-elysia:
     build:
       context: ./bun-elysia
@@ -96,7 +98,6 @@ services:
     networks:
       - db-network
 
-  # Bun Hono App
   bun-hono:
     build:
       context: ./bun-hono
@@ -114,7 +115,6 @@ services:
     networks:
       - db-network
 
-  # Node Express App
   node-express:
     build:
       context: ./node-express
@@ -132,7 +132,6 @@ services:
     networks:
       - db-network
 
-  # Node Fastify App
   node-fastify:
     build:
       context: ./node-fastify
