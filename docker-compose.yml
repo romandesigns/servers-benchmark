@@ -9,8 +9,29 @@ services:
     command:
       - "--storage.tsdb.retention.time=6h"
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.listen-address=:9090"
+      - "--web.enable-lifecycle"
+      - "--web.enable-admin-api"
+      - "--web.enable-remote-write-receiver"
+
     ports:
       - "9090:9090"
+    networks:
+      - db-network
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    networks:
+      - db-network
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log
     networks:
       - db-network
 
@@ -69,7 +90,7 @@ services:
 
   dotnet-api:
     build:
-      context: ./DotnetTasksApi
+      context: ./dotnet
       dockerfile: Dockerfile
     environment:
       DOTNET_RUNNING_IN_CONTAINER: "true"
