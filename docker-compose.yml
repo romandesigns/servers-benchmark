@@ -89,9 +89,10 @@ services:
       - db-network
 
   dotnet-api:
-    build:
-      context: ./dotnet
-      dockerfile: Dockerfile
+    # build:
+    #   context: ./dotnet
+    #   dockerfile: Dockerfile
+    image: creativewebdev/servers-benchmark:dotnet-api
     environment:
       DOTNET_RUNNING_IN_CONTAINER: "true"
       ASPNETCORE_ENVIRONMENT: Development
@@ -103,8 +104,9 @@ services:
       - db-network
 
   bun-elysia:
-    build:
-      context: ./bun-elysia
+    # build:
+    #   context: ./bun-elysia
+    image: creativewebdev/servers-benchmark:bun-elysia
     environment:
       PORT: 6485
       PSQL_HOST: psql-database
@@ -120,8 +122,9 @@ services:
       - db-network
 
   bun-hono:
-    build:
-      context: ./bun-hono
+    # build:
+    #   context: ./bun-hono
+    image: creativewebdev/servers-benchmark:bun-hono
     environment:
       PORT: 1103
       PSQL_HOST: psql-database
@@ -137,8 +140,9 @@ services:
       - db-network
 
   node-express:
-    build:
-      context: ./node-express
+    # build:
+    #   context: ./node-express
+    image: creativewebdev/servers-benchmark:node-express
     environment:
       PORT: 6582
       PSQL_HOST: psql-database
@@ -154,8 +158,9 @@ services:
       - db-network
 
   node-fastify:
-    build:
-      context: ./node-fastify
+    # build:
+    #   context: ./node-fastify
+    image: creativewebdev/servers-benchmark:node-fastify
     environment:
       PORT: 3000
       PSQL_HOST: psql-database
