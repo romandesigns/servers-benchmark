@@ -103,6 +103,8 @@ services:
       - psql-database
     networks:
       - db-network
+    mem_limit: 512m
+    cpus: 0.5
 
   bun-elysia:
     # build:
@@ -141,6 +143,8 @@ services:
       - psql-database
     networks:
       - db-network
+    mem_limit: 512m
+    cpus: 0.5
 
   node-express:
     # build:
@@ -159,6 +163,8 @@ services:
       - psql-database
     networks:
       - db-network
+    mem_limit: 512m
+    cpus: 0.5
 
   node-fastify:
     # build:
@@ -177,6 +183,8 @@ services:
       - psql-database
     networks:
       - db-network
+    mem_limit: 512m
+    cpus: 0.5
 
 volumes:
   pgdata:

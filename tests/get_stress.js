@@ -23,7 +23,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get("http://localhost:3000/api/v1/get-tasks");
+  const res = http.get("http://localhost:8080/api/v1/get-tasks");
   check(res, {
     "status is 200": (r) => r.status === 200,
   });
