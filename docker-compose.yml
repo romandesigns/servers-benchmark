@@ -1,4 +1,5 @@
-version: "3.9"
+# version: "3.9"
+version: "2.4"
 
 services:
   prometheus:
@@ -120,6 +121,8 @@ services:
       - psql-database
     networks:
       - db-network
+    mem_limit: 512m
+    cpus: 0.5
 
   bun-hono:
     # build:
