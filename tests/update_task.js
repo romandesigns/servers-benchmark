@@ -11,7 +11,7 @@ export const options = {
 };
 
 export default function () {
-  const taskId = 1; // Replace with a valid task ID
+  const taskId = 1;
   const url = `http://localhost:8080/api/v1/update-task/${taskId}`;
   const payload = JSON.stringify({
     title: `Updated task title - ${Math.floor(Math.random() * 1000)}`,

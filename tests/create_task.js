@@ -5,7 +5,6 @@ import { Trend, Counter } from "k6/metrics";
 const responseTime = new Trend("response_time");
 const errorCount = new Counter("error_count");
 
-// TEST STAGES
 export const options = {
   stages: [
     { duration: "30s", target: 600 },
@@ -20,7 +19,6 @@ export const options = {
 };
 
 export default function () {
-  // POST REQUEST TEST
   const url = "http://localhost:8080/api/v1/create-task";
   const payload = JSON.stringify({
     title: `New user create - ${Math.floor(Math.random() * 1000)}`,
@@ -33,14 +31,12 @@ export default function () {
   };
   const res = http.post(url, payload, params);
 
-  // This is to track response time and errors
   responseTime.add(res.timings.duration);
   if (res.status !== 200) {
     errorCount.add(1);
     console.error(`Request failed with status ${res.status}: ${res.body}`);
   }
 
-  // VALIDATING RESPONSE
   check(res, {
     "status is 200": (r) => r.status === 200,
   });

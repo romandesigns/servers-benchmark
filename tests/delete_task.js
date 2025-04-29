@@ -11,7 +11,7 @@ export const options = {
 };
 
 export default function () {
-  const taskId = 1; // Replace with a valid task ID
+  const taskId = 1;
   const res = http.del(`http://localhost:8080/api/v1/delete-task/${taskId}`);
 
   check(res, {
