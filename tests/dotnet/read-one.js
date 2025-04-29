@@ -1,7 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { randomItem } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
-import { logResponse } from "../helper/logger.js";
+import { logResponse } from "../../helper/logger.js";
 
 export const options = {
   stages: [

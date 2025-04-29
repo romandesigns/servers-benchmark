@@ -1,10 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
-import {
-  randomItem,
-  randomString,
-} from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
-import { logResponse } from "../helper/logger.js";
+import { randomString } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
+import { logResponse } from "../../helper/logger.js";
 
 export const options = {
   stages: [
@@ -23,23 +20,21 @@ export default function () {
     const tasks = tasksRes.json().data;
 
     if (tasks.length > 0) {
-      const task = randomItem(tasks);
-
-      const payload = JSON.stringify({
-        title: `Updated ${randomString(5)}`,
-        description: `Updated description ${randomString(10)}`,
-        complete: true,
-      });
-
-      const headers = { "Content-Type": "application/json" };
-      const res = http.put(`${baseUrl}/${task.id}/update-task`, payload, {
-        headers,
-      });
-
-      logResponse("[UPDATE TASK]", res, { taskId: task.id, payload });
-
-      check(res, {
-        "update task status is 200": (r) => r.status === 200,
+      tasks.forEach((task) => {
+        const payload = JSON.stringify({
+          title: `Updated ${randomString(5)}`,
+          description: `Updated description ${randomString(10)}`,
+          complete: true,
+        });
+        const headers = { "Content-Type": "application/json" };
+        const res = http.put(`${baseUrl}/${task.id}/update-task`, payload, {
+          headers,
+        });
+        logResponse("[UPDATE TASK]", res, { taskId: task.id, payload });
+        check(res, {
+          "update task status is 200": (r) => r.status === 200,
+        });
+        sleep(0.1);
       });
     } else {
       console.warn("[UPDATE TASK] No tasks found to update.");

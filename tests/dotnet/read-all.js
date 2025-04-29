@@ -1,6 +1,6 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
-import { logResponse } from "../helper/logger.js";
+import { logResponse } from "../../helper/logger.js";
 
 export const options = {
   stages: [
