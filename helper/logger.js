@@ -1,5 +1,3 @@
-// logger.js or at the top of your script
-
 export function logResponse(label, res, extraInfo = {}) {
   console.log(`\n==== ${label} ====`);
   if (extraInfo && Object.keys(extraInfo).length > 0) {
