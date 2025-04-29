@@ -31,6 +31,6 @@ scrape_configs:
     static_configs:
       - targets: ["bun-hono:1103"]
 
-  - job_name: "k6"
+  - job_name: "cadvisor"
     static_configs:
-      - targets: ["bun-hono:6565"]
+      - targets: ["cadvisor:8080"]
