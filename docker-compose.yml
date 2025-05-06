@@ -128,7 +128,7 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 512m
+    mem_limit: 256
     cpus: 0.5
 
   bun-elysia:
@@ -148,7 +148,7 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 512m
+    mem_limit: 256
     cpus: 0.5
 
   bun-hono:
@@ -168,7 +168,7 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 512m
+    mem_limit: 256
     cpus: 0.5
 
   node-express:
@@ -188,7 +188,7 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 512m
+    mem_limit: 256
     cpus: 0.5
 
   node-fastify:
@@ -208,7 +208,7 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 512m
+    mem_limit: 256
     cpus: 0.5
 
 volumes:
