@@ -53,3 +53,5 @@
 # 🔹 Ignore PostgreSQL data (if using local DB)
 /DotnetTasksApi/pgdata/
 /DotnetTasksApi/*.sql
+
+.fake
