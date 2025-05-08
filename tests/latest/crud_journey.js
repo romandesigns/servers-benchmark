@@ -8,7 +8,6 @@ export const options = {
     { duration: "20s", target: 50 },
     { duration: "10s", target: 0 },
   ],
-  summaryTrendStats: ["avg", "min", "med", "max", "p(90)", "p(95)"],
   thresholds: {
     checks: [
       { threshold: "rate==1.0", abortOnFail: false, delayAbortEval: "10s" },
@@ -31,15 +30,18 @@ export default function () {
       tags: { operation: "create" },
     });
 
-    check(
-      res,
-      {
-        create_status_200_201: (r) => r.status === 200 || r.status === 201,
-      },
-      { operation: "create" }
-    );
+    console.log(`Create Task Response: ${res.status}, Body: ${res.body}`);
 
-    taskId = res.json().id || res.json()._id;
+    check(res, {
+      create_status_200_201: (r) => r.status === 200 || r.status === 201,
+      has_task_id: (r) =>
+        r.json().data && r.json().data[0] && r.json().data[0].id,
+    });
+
+    const responseData = res.json();
+    if (responseData.data && responseData.data[0]) {
+      taskId = responseData.data[0].id;
+    }
   });
 
   if (!taskId) return;
@@ -51,13 +53,15 @@ export default function () {
       tags: { operation: "read" },
     });
 
-    check(
-      res,
-      {
-        read_status_200: (r) => r.status === 200,
-      },
-      { operation: "read" }
-    );
+    console.log(`Read Task Response: ${res.status}, Body: ${res.body}`);
+
+    check(res, {
+      read_status_200: (r) => r.status === 200,
+      has_correct_task_details: (r) =>
+        r.json().data &&
+        r.json().data.id === taskId &&
+        r.json().data.title.includes(`VU ${__VU}`),
+    });
   });
 
   sleep(0.5);
@@ -73,29 +77,15 @@ export default function () {
       tags: { operation: "update" },
     });
 
-    check(
-      res,
-      {
-        update_status_200: (r) => r.status === 200,
-      },
-      { operation: "update" }
-    );
-  });
+    console.log(`Update Task Response: ${res.status}, Body: ${res.body}`);
 
-  sleep(0.5);
-
-  group("Re-read Task", () => {
-    const res = http.get(`${baseUrl}/${taskId}/get-task`, {
-      tags: { operation: "read-again" },
+    check(res, {
+      update_status_200: (r) => r.status === 200,
+      updated_correctly: (r) =>
+        r.json().data &&
+        r.json().data.title === `VU ${__VU} updated` &&
+        r.json().data.description === "updated description",
     });
-
-    check(
-      res,
-      {
-        reread_status_200: (r) => r.status === 200,
-      },
-      { operation: "read-again" }
-    );
   });
 
   sleep(0.5);
@@ -105,13 +95,21 @@ export default function () {
       tags: { operation: "delete" },
     });
 
-    check(
-      res,
-      {
-        delete_status_200_204: (r) => r.status === 200 || r.status === 204,
-      },
-      { operation: "delete" }
-    );
+    console.log(`Delete Task Response: ${res.status}, Body: ${res.body}`);
+
+    check(res, {
+      delete_status_200_204: (r) => r.status === 200 || r.status === 204,
+    });
+  });
+
+  group("Validate Task Deletion", () => {
+    const res = http.get(`${baseUrl}/${taskId}/get-task`, {
+      tags: { operation: "validate-delete" },
+    });
+
+    check(res, {
+      task_is_deleted: (r) => r.status === 404 || r.status === 410,
+    });
   });
 
   sleep(Math.random());
