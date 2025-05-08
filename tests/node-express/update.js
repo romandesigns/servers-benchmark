@@ -1,6 +1,6 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
-import { randomItem } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
+import { randomString } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 import { logResponse } from "../../helper/logger.js";
 
 const node_express_port = 6582;
@@ -9,7 +9,7 @@ const dotnet_port = 8080;
 const bun_hono_port = 1103;
 const node_elysia_port = 6585;
 
-const PORT = dotnet_port;
+const PORT = node_express_port;
 const baseUrl = `http://localhost:${PORT}/api/v1`;
 
 export const options = {
@@ -37,25 +37,29 @@ export default function () {
   const tasksRes = http.get(`${baseUrl}/get-tasks`);
   if (tasksRes.status === 200 && Array.isArray(tasksRes.json().data)) {
     const tasks = tasksRes.json().data;
-
     if (tasks.length > 0) {
-      const task = randomItem(tasks);
-      const res = http.del(`${baseUrl}/${task.id}/delete-task`);
-      logResponse("[DELETE TASK]", res, { taskId: task.id });
-      check(res, {
-        "delete task status is 200": (r) => r.status === 200,
+      tasks.forEach((task) => {
+        const payload = JSON.stringify({
+          title: `Updated ${randomString(5)}`,
+          description: `Updated description ${randomString(10)}`,
+          complete: true,
+        });
+        const headers = { "Content-Type": "application/json" };
+        const res = http.put(`${baseUrl}/${task.id}/update-task`, payload, {
+          headers,
+        });
+        logResponse("[UPDATE TASK]", res, { taskId: task.id, payload });
+        check(res, {
+          "update task status is 200": (r) => r.status === 200,
+        });
+        sleep(0.1);
       });
-      if (res.status !== 200) {
-        console.error(
-          `[DELETE TASK] Failed to delete task with ID: ${task.id}`
-        );
-      }
     } else {
-      console.warn("[DELETE TASK] No tasks found to delete.");
+      console.warn("[UPDATE TASK] No tasks found to update.");
     }
   } else {
     console.error(
-      `[DELETE TASK] Failed to retrieve tasks. Status: ${tasksRes.status}`
+      `[UPDATE TASK] Failed to retrieve tasks. Status: ${tasksRes.status}`
     );
   }
   sleep(0.5);

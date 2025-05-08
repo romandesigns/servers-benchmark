@@ -9,7 +9,7 @@ const dotnet_port = 8080;
 const bun_hono_port = 1103;
 const node_elysia_port = 6585;
 
-const PORT = dotnet_port;
+const PORT = node_express_port;
 const baseUrl = `http://localhost:${PORT}/api/v1`;
 
 export const options = {
@@ -35,28 +35,32 @@ export const options = {
 
 export default function () {
   const tasksRes = http.get(`${baseUrl}/get-tasks`);
+
   if (tasksRes.status === 200 && Array.isArray(tasksRes.json().data)) {
     const tasks = tasksRes.json().data;
 
     if (tasks.length > 0) {
       const task = randomItem(tasks);
-      const res = http.del(`${baseUrl}/${task.id}/delete-task`);
-      logResponse("[DELETE TASK]", res, { taskId: task.id });
+      const res = http.get(`${baseUrl}/${task.id}/get-task`);
+
+      // --- Log full transaction cleanly
+      logResponse("[GET SINGLE TASK]", res, { taskId: task.id });
+
       check(res, {
-        "delete task status is 200": (r) => r.status === 200,
+        "get single task status is 200": (r) => r.status === 200,
+        "task ID matches": (r) => {
+          const taskData = r.json();
+          return taskData && taskData.data && taskData.data.id === task.id;
+        },
       });
-      if (res.status !== 200) {
-        console.error(
-          `[DELETE TASK] Failed to delete task with ID: ${task.id}`
-        );
-      }
     } else {
-      console.warn("[DELETE TASK] No tasks found to delete.");
+      console.warn("[GET SINGLE TASK] No tasks found to fetch.");
     }
   } else {
     console.error(
-      `[DELETE TASK] Failed to retrieve tasks. Status: ${tasksRes.status}`
+      `[GET SINGLE TASK] Failed to retrieve tasks. Status: ${tasksRes.status}`
     );
   }
+
   sleep(0.5);
 }

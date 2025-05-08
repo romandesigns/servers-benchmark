@@ -9,7 +9,7 @@ const dotnet_port = 8080;
 const bun_hono_port = 1103;
 const node_elysia_port = 6585;
 
-const PORT = node_express_port;
+const PORT = dotnet_port;
 const baseUrl = `http://localhost:${PORT}/api/v1`;
 
 export const options = {

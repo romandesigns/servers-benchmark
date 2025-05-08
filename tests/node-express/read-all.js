@@ -1,6 +1,5 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
-import { randomString } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 import { logResponse } from "../../helper/logger.js";
 
 const node_express_port = 6582;
@@ -9,7 +8,7 @@ const dotnet_port = 8080;
 const bun_hono_port = 1103;
 const node_elysia_port = 6585;
 
-const PORT = dotnet_port;
+const PORT = node_express_port;
 const baseUrl = `http://localhost:${PORT}/api/v1`;
 
 export const options = {
@@ -34,22 +33,14 @@ export const options = {
 };
 
 export default function () {
-  const payload = JSON.stringify({
-    title: `Task ${randomString(5)}`,
-    description: `Description ${randomString(10)}`,
-  });
-
-  const headers = { "Content-Type": "application/json" };
-
-  const res = http.post(`${baseUrl}/create-task`, payload, { headers });
-
-  // --- Clean unified logging
-  logResponse("[CREATE TASK]", res, { payload });
-
+  const res = http.get(`${baseUrl}/get-tasks`);
+  logResponse("[GET ALL TASKS]", res);
   check(res, {
-    "create task status is 201": (r) => r.status === 201,
-    "response time is less than 200ms": (r) => r.timings.duration < 200,
+    "get all tasks status is 200": (r) => r.status === 200,
+    "response body is not empty": (r) => r.body && r.body.length > 0,
   });
-
-  sleep(0.56);
+  if (res.status !== 200) {
+    console.error(`Request failed with status ${res.status}`);
+  }
+  sleep(0.5);
 }
