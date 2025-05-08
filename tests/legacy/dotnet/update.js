@@ -1,7 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { randomString } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
-import { logResponse } from "../../helper/logger.js";
+import { logResponse } from "../../../helper/logger.js";
 
 const node_express_port = 6582;
 const node_fastify_port = 3000;
