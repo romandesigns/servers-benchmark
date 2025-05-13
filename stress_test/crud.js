@@ -1,6 +1,14 @@
 import http from "k6/http";
 import { check, group, sleep } from "k6";
 
+const bun_hono = 1103;
+const bun_elysia = 6485;
+// const node_express = 6582;
+const node_fastify = 3000;
+const dotnet = 8080;
+
+const PORT = dotnet;
+
 export const options = {
   stages: [
     { duration: "10s", target: 10 },
@@ -16,7 +24,7 @@ export const options = {
 };
 
 export default function () {
-  const baseUrl = "http://localhost:6582/api/v1/";
+  const baseUrl = `http://localhost:${PORT}/api/v1`;
   const createdTasks = [];
 
   function createTask() {
