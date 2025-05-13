@@ -1,13 +1,13 @@
 import http from "k6/http";
 import { check, group, sleep } from "k6";
 
-const bun_hono = 1103;
-const bun_elysia = 6485;
-// const node_express = 6582;
-const node_fastify = 3000;
-const dotnet = 8080;
+// const bun_hono = 1103;
+// const bun_elysia = 6485;
+const node_express = 6582;
+// const node_fastify = 3000;
+// const dotnet = 8080;
 
-const PORT = dotnet;
+const PORT = node_express;
 
 export const options = {
   stages: [
