@@ -7,14 +7,17 @@ const node_express = 6582;
 // const node_fastify = 3000;
 // const dotnet = 8080;
 
+// CAN PERFORM CRUD OPERATIONS
+
 const PORT = node_express;
 
 export const options = {
   stages: [
     { duration: "10s", target: 10 },
-    { duration: "20s", target: 30 },
     { duration: "20s", target: 50 },
-    { duration: "10s", target: 0 },
+    { duration: "20s", target: 150 },
+    { duration: "10s", target: 40 },
+    { duration: "5s", target: 0 },
   ],
   thresholds: {
     checks: [
