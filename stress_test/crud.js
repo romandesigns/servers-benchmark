@@ -156,21 +156,21 @@ export default function () {
       }
 
       readTask(taskId);
-      sleep(Math.random());
+      // sleep(Math.random());
 
       updateTask(taskId);
-      sleep(Math.random());
+      // sleep(Math.random());
 
       validateUpdatedTask(taskId);
-      sleep(Math.random());
+      // sleep(Math.random());
 
       deleteTask(taskId);
-      sleep(Math.random());
+      // sleep(Math.random());
     }
   }
 
   // Main Execution Flow
   createTask();
   processTasks();
-  sleep(Math.random());
+  // sleep(Math.random());
 }
