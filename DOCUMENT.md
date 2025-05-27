@@ -66,11 +66,11 @@ export const options = {
   scenarios: {
     consistent_requests: {
       executor: "constant-arrival-rate",
-      rate: 50, // 💥 50 requests per second
-      timeUnit: "1s", // Apply the rate every 1 second
-      duration: "1m", // ⏱️ 1-minute test duration
-      preAllocatedVUs: 50, // Start with 50 VUs
-      maxVUs: 300, // Allow scaling up to 300 VUs if needed
+      rate: 50, // 💥 50 REQUESTS PER SECOND
+      timeUnit: "1s", // TIME DURATION PER RATE
+      duration: "1m", // ⏱️ TEST DURATION
+      preAllocatedVUs: 50, // STARTING NUMBER OF VIRTUAL USERS
+      maxVUs: 300, // MAX NUMBER OF VIRTUAL USERS TO SCALE TOO
     },
   },
   thresholds: {
@@ -183,8 +183,6 @@ Node.js with Express demonstrated **exceptional linear scalability** across all 
 
 ---
 
-## ✅ Verdict: Bun (Elysia)
-
 > **Final Assessment**: Bun with Elysia demonstrated exceptional performance and stability across all rounds. It maintained ultra-low latency even under high concurrency and resource constraints, with minimal CPU and memory usage. This makes it an excellent choice for high-throughput applications where speed and efficiency are critical, particularly in cost-sensitive or resource-limited environments.
 
 ## 📊 Benchmark Results: Bun (Hono)
@@ -224,52 +222,6 @@ Node.js with Express demonstrated **exceptional linear scalability** across all 
 - Confirms optimal performance with minimal latency and stable scaling behavior.
 
 > **Final Assessment**: Bun with Hono delivered exceptional performance across all resource tiers. Even at low resource allocation (0.25 CPU / 128MB), it maintained high throughput and low error rates. As resources increased, response times significantly improved while keeping CPU and memory usage efficient. With consistent 250 RPS throughput, sub-10ms latencies, and graceful scaling, Bun Hono proves to be an ideal choice for latency-sensitive, high-concurrency services where performance predictability is crucial.
-
-## 📊 Benchmark Results: Node (Fastify)
-
-### 🧪 Consolidated Performance Table
-
-| Round | CPU / RAM        | Total Requests | Avg Resp Time | p95 Resp Time | RPS | Error % | CPU Max | Mem Max |
-| ----- | ---------------- | -------------- | ------------- | ------------- | --- | ------- | ------- | ------- |
-| 1     | 0.25 CPU / 128MB | 15,005         | 9.69 ms       | 83.35 ms      | 250 | 0%      | ~24.5%  | 44.57MB |
-| 2     | 0.5 CPU / 256MB  | 15,005         | 3.07 ms       | 5.24 ms       | 250 | 0%      | ~25%    | 43.75MB |
-| 3     | 1 CPU / 384MB    | 15,005         | 3.29 ms       | 7.34 ms       | 250 | 0%      | ~25%    | 44.86MB |
-
----
-
-### ✅ Round 1 (Low Resource: 0.25 CPU / 128MB)
-
-- Node Fastify handled **15,005 requests** with **0% error rate**.
-- **Average response time** was **9.69 ms**.
-- **p95 latency** peaked at **83.35 ms**.
-- Maintained a stable **~250 RPS** under constrained resources.
-- **CPU usage** peaked at **~24.5%**, and **memory usage** stayed efficient at **~44.57MB**.
-- Despite some tail latency spikes, it showed strong reliability.
-
----
-
-### ✅ Round 2 (Mid Resource: 0.5 CPU / 256MB)
-
-- Successfully processed **15,005 requests** with **0% error rate**.
-- **Avg response time** improved to **3.07 ms**.
-- **p95 latency** dropped significantly to **5.24 ms**.
-- Held a consistent **250 RPS**, demonstrating great scalability.
-- **CPU usage** remained at **~25%**, and **memory usage** was minimal at **43.75MB**.
-- Performance remained strong and consistent.
-
----
-
-### ✅ Round 3 (High Resource: 1 CPU / 384MB)
-
-- Fastify handled **15,005 requests** again with **zero failures**.
-- **Average response time** was **3.29 ms**, and **p95 latency** at **7.34 ms**.
-- Held the **target RPS of 250** with tight latency control.
-- **CPU peaked at ~25%**, and **memory usage** was **44.86MB**.
-- Continued to perform with consistent speed and resource efficiency.
-
----
-
-> **Final Assessment**: Node.js with Fastify demonstrates remarkable consistency, excellent latency control, and solid throughput across all resource levels. It remains stable under load, scales gracefully, and offers low overhead — making it a great candidate for performance-critical applications in resource-constrained or production-grade environments.
 
 ## 📊 Benchmark Results: .NET API
 
