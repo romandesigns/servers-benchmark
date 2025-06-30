@@ -1,15 +1,16 @@
 import http from "k6/http";
 import { check, group, sleep } from "k6";
 
-const dotnet = 8080;
+
 
 // CAN PERFORM CRUD OPERATIONS
 // const bun_elysia = 6485;
-// const node_express = 6582;
+const node_express = 6582;
 // const node_fastify = 3000;
 // const bun_hono = 1103;
+// const dotnet = 8080;
 
-const PORT = dotnet;
+const PORT = node_express;
 
 // NOTE: This approach will be commented out because:
 // It models load based on the number of active virtual users (VUs),
