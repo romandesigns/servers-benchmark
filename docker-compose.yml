@@ -125,8 +125,8 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 384m
-    cpus: 0.75
+    mem_limit: ${DOTNET_MEM_LIMIT:-384m}
+    cpus: ${DOTNET_CPU_LIMIT:-0.75}
 
   bun-elysia:
     # build:
@@ -145,8 +145,8 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 384m
-    cpus: 0.75
+    mem_limit: ${BUN_ELYSIA_MEM_LIMIT:-384m}
+    cpus: ${BUN_ELYSIA_CPU_LIMIT:-0.75}
 
   bun-hono:
     # build:
@@ -165,8 +165,8 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 384m
-    cpus: 0.75
+    mem_limit: ${BUN_HONO_MEM_LIMIT:-384m}
+    cpus: ${BUN_HONO_CPU_LIMIT:-0.75}
 
   node-express:
     # build:
@@ -185,8 +185,8 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 384m
-    cpus: 0.75
+    mem_limit: ${NODE_EXPRESS_MEM_LIMIT:-384m}
+    cpus: ${NODE_EXPRESS_CPU_LIMIT:-0.75}
 
   node-fastify:
     # build:
@@ -205,8 +205,8 @@ services:
       - psql-database
     networks:
       - db-network
-    mem_limit: 384m
-    cpus: 0.75
+    mem_limit: ${NODE_FASTIFY_MEM_LIMIT:-384m}
+    cpus: ${NODE_FASTIFY_CPU_LIMIT:-0.75}
 
 volumes:
   pgdata:
