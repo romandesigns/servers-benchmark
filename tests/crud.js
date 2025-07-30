@@ -50,7 +50,7 @@ export const options = {
 };
 
 export default function () {
-  const baseUrl = `http://localhost:${PORT}/api/v1`;
+  const baseUrl = `http://192.168.32.4:${PORT}/api/v1`;
   const createdTasks = [];
 
   function createTask() {
