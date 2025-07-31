@@ -3,9 +3,9 @@ import { check, group, sleep } from "k6";
 
 // CAN PERFORM CRUD OPERATIONS
 const bun_elysia = 6485;
-
 // const dotnet = 8080;
 // const node_fastify = 3000;
+
 // const bun_hono = 1103;
 // const node_express = 6582;
 
