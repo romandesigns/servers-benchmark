@@ -43,7 +43,7 @@ export const options = {
   scenarios: {
     consistent_requests: {
       executor: "constant-arrival-rate",
-      rate: 1000, // 💥100 requests per second (doubled from 50)
+      rate: 2500, // 💥2500 requests per second
       timeUnit: "1.5s", //  Time unit to apply the rate
       duration: "3m", // ⏱️ Test duration
       preAllocatedVUs: 500, //  Initial VUs to allocate (doubled from 50)
