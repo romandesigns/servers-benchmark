@@ -43,11 +43,11 @@ export const options = {
   scenarios: {
     consistent_requests: {
       executor: "constant-arrival-rate",
-      rate: 100, // 💥 100 requests per second (doubled from 50)
-      timeUnit: "1s", // Time unit to apply the rate
-      duration: "1m", // ⏱️ Test duration
+      rate: 500, // 💥 100 requests per second (doubled from 50)
+      timeUnit: "1.5s", // Time unit to apply the rate
+      duration: "2m", // ⏱️ Test duration
       preAllocatedVUs: 100, // Initial VUs to allocate (doubled from 50)
-      maxVUs: 600, // Maximum VUs the test can scale to (doubled from 300)
+      maxVUs: 1200,//Maximum VUs the test can scale to (doubled from 300)
     },
   },
   thresholds: {
