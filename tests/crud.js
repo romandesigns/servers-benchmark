@@ -3,13 +3,13 @@ import { check, group, sleep } from "k6";
 
 // CAN PERFORM CRUD OPERATIONS
 
-// 1,2,3
+// 1, 2, 3
 // const bun_elysia = 6485;
 
-// 1,2,3
+// 1, 2, 3
 // const dotnet = 8080;
 
-// 1,2, 3
+// 1, 2, 3
 const node_fastify = 3000;
 
 // const bun_hono = 1103;
