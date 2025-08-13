@@ -43,16 +43,19 @@ export const options = {
   scenarios: {
     consistent_requests: {
       executor: "constant-arrival-rate",
-      rate: 2500, // 💥2500 requests per second
-      timeUnit: "1.5s", //  Time unit to apply the rate
-      duration: "3m", // ⏱️ Test duration
-      preAllocatedVUs: 500, //  Initial VUs to allocate (doubled from 50)
-      maxVUs: 1200, //  Maximum VUs the test can scale to (doubled from 300)
+      rate: 2500,
+      timeUnit: "1s",
+      duration: "3m",
+      preAllocatedVUs: 2000,
+      maxVUs: 3000,
+      gracefulStop: "0s",
     },
   },
   thresholds: {
-    checks: [{ threshold: "rate==1.0" }],
+    checks: ["rate==1.0"], // keep your existing pass/fail rule
   },
+  discardResponseBodies: true,   // pure throughput; flip to false if payload matters
+  insecureSkipTLSVerify: true,   // if using self-signed locally
 };
 
 export default function () {
