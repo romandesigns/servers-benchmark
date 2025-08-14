@@ -1,0 +1,36 @@
+Bun Elysia topped most categories even though it’s single-threaded for a few reasons:
+
+1️⃣ It’s extremely fast per core
+
+Bun (written in Zig) and Elysia’s architecture are hyper-optimized for raw request processing.
+
+Even without spreading across multiple cores, it squeezes out maximum RPS (499.9) at every resource tier in your tests.
+
+The single event loop is so fast that it never became CPU-bound under the 500 RPS test scenario.
+
+2️⃣ The workload didn’t demand multi-threading
+
+Your current benchmark was lightweight CRUD with low computational complexity.
+
+That means the bottleneck wasn’t in concurrent execution limits — it was in network I/O and routing overhead, where Bun excels.
+
+For heavier CPU-bound tasks, .NET or Node Cluster would start to pull ahead because Bun’s single thread would saturate.
+
+3️⃣ Memory efficiency
+
+Bun Elysia had one of the lowest memory footprints of all three, meaning less GC churn and more predictable performance under steady load.
+
+4️⃣ Minimal latency
+
+It matched Node Fastify’s sub-4ms average response times, even with only one core actively working.
+
+That’s because Bun’s internals handle HTTP parsing, routing, and serialization with minimal overhead compared to traditional Node.
+
+✅ Bottom line:
+In your specific test conditions — moderate concurrency per core, low-cost operations, and no CPU-heavy logic — Bun Elysia’s single thread was enough to fully saturate the 500 RPS target without dropping requests or increasing latency, giving it a “win” in almost every metric.
+
+⚠️ But if you crank up to true multi-core stress (like your 2500 RPS meltdown config) or throw in heavy computations, the advantage shifts.
+In those cases, .NET’s multi-threading would likely take the gold in throughput and latency.
+
+If you want, I can design the next benchmark stage to deliberately break Bun’s single-thread advantage so you can see this shift happen.
+Would you like me to set that up?
