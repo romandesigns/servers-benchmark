@@ -43,19 +43,23 @@ export const options = {
   scenarios: {
     consistent_requests: {
       executor: "constant-arrival-rate",
-      rate: 2500,
+      rate: 2500,          // true 2,500 RPS
       timeUnit: "1s",
       duration: "3m",
       preAllocatedVUs: 2000,
       maxVUs: 3000,
-      gracefulStop: "0s",
+      // omit gracefulStop to keep defaults; it's fine either way
     },
   },
+
+  // thresholds like in your screenshot (tweak as you wish)
   thresholds: {
-    checks: ["rate==1.0"], // keep your existing pass/fail rule
+    checks: ["rate==1.0"],
+    http_req_duration: ["p(95)<50"],   // example: 95th < 50 ms
   },
-  discardResponseBodies: true,   // pure throughput; flip to false if payload matters
-  insecureSkipTLSVerify: true,   // if using self-signed locally
+
+  discardResponseBodies: false,
+  insecureSkipTLSVerify: true,
 };
 
 export default function () {
