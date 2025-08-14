@@ -4,18 +4,19 @@ import { check, group, sleep } from "k6";
 // CAN PERFORM CRUD OPERATIONS
 
 // 1, 2, 3
-// const bun_elysia = 6485;
+const bun_elysia = 6485;
 
 // 1, 2, 3
 // const dotnet = 8080;
 
 // 1, 2, 3
-const node_fastify = 3000;
+// const node_fastify = 3000;
+
 
 // const bun_hono = 1103;
 // const node_express = 6582;
 
-const PORT = node_fastify;
+const PORT = bun_elysia;
 
 // NOTE: This approach will be commented out because:
 // It models load based on the number of active virtual users (VUs),
