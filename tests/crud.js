@@ -12,11 +12,12 @@ const bun_elysia = 6485;
 // 1, 2, 3
 // const node_fastify = 3000;
 
+// 1
+const bun_hono = 1103;
 
-// const bun_hono = 1103;
 // const node_express = 6582;
 
-const PORT = bun_elysia;
+const PORT = bun_hono;
 
 // NOTE: This approach will be commented out because:
 // It models load based on the number of active virtual users (VUs),
